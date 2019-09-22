@@ -2,11 +2,13 @@ package service
 
 import (
 	"DuckyGo/conf"
+	"DuckyGo/model"
 	"DuckyGo/serializer"
 	 "DuckyGo/util"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/smartwalle/alipay"
+	"log"
 	"math/rand"
 	"time"
 )
@@ -19,6 +21,8 @@ type CreatePayService struct {
 
 
 func (service *CreatePayService) Create() *serializer.Response {
+
+	var paydb model.AlipaySuccess
 
 	rand.Seed(time.Now().UnixNano())
 	var p = alipay.TradePagePay{}
@@ -36,7 +40,15 @@ func (service *CreatePayService) Create() *serializer.Response {
 		fmt.Println(err)
 	}
 
-	fmt.Println(url)
+	paydb.OutTradeNo = p.OutTradeNo
+
+	if err := model.DB.Create(&paydb).Error; err != nil {
+		log.Println(err)
+		return &serializer.Response{
+			Status:    50001,
+			Msg:       "数据库操作失败",
+		}
+	}
 
 	return &serializer.Response{
 		Status:    0,
@@ -44,8 +56,5 @@ func (service *CreatePayService) Create() *serializer.Response {
 			"PayUrl": url,
 			"ResultUrl": url.String(),
 		},
-		Msg:       "",
-		Error:     "",
-		TimeStamp: 0,
 	}
 }

@@ -21,7 +21,7 @@ func NotifyPay(c *gin.Context) {
 	var service service.NotifyPayService
 	if err := c.ShouldBind(&service); err == nil {
 		service.Notify(c.Request)
-		c.String(200, "success")
+		c.String(302, "success")
 	} else {
 		c.JSON(200, ErrorResponse(err).Result())
 	}
@@ -32,7 +32,11 @@ func ReturnPay(c *gin.Context) {
 	var service service.ReturnPayService
 	if err := c.ShouldBind(&service); err == nil {
 		res := service.Return(c.Request.Form)
-		c.JSON(200, res.Result())
+		if res.Msg == "Success!" {
+			c.Redirect(307, "/")
+		} else {
+			c.JSON(200, res.Result())
+		}
 	} else {
 		c.JSON(200, ErrorResponse(err).Result())
 	}
