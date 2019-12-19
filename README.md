@@ -8,7 +8,7 @@
 项目基于MIT协议，任何人可以进行修改并发布，如果本项目你发现有任何BUG，欢迎提交PullRequest :fire:
 
 - DuckyGo-MVC(模板语言和Django一模一样): [基于Gin+Pongo2gin+Gorm的MVC开发框架](https://github.com/L-HeliantHuS/DuckyGo-MVC)
-- 参考视频: [使用DuckyGo进行快速Restful API开发](https://www.bilibili.com/video/av66388356)
+- DuckyGo参考视频: [使用DuckyGo进行快速Restful API开发](https://www.bilibili.com/video/av66388356)
 
 ## 目的 :star2:
 
@@ -21,10 +21,7 @@
 最后在api(controll)层c.JSON返回的时候加.Result() 进行加TimeStamp
 ```
 
-业务逻辑:
-```text
-api层不允许出现数据库操作, 所有的数据库操作都在service层进行. api层只进行大体的业务逻辑和序列化.
-```
+- 本项目自带Python写的接口测试, 在根目录下的`DuckyGoTest.py`, 按照自己需求更改即可流畅的完成测试~
 
 ## 特色 :blue_heart:
 
@@ -39,6 +36,7 @@ api层不允许出现数据库操作, 所有的数据库操作都在service层�
 7. 橙卡大佬实现了国际化i18n的一些基本功能.
 8. 本项目是使用Redis来保存用户Session登陆状态.
 9. 使用Redis-list实现了内部消息队列,发送邮件可实现完全异步发送.
+10. 同时实现了session和jwt验证， 让用户可以自己选择而不用自己造轮子.
 
 本项目已经预先实现了一些常用的代码方便参考和复用:
 
@@ -48,22 +46,24 @@ api层不允许出现数据库操作, 所有的数据库操作都在service层�
 4. 实现了```/api/v1/user/me```用户资料接口(需要登录后获取session)
 5. 实现了```/api/v1/user/logout```用户登出接口(需要登录后获取session)
 6. 实现了```/api/v1/user/changepassword```用户修改密码接口
+7. 实现了```/api/v2/sign```获得jwtToken
+8. 实现了```/api/v2/ping```测试jwtToken可用性
 
 本项目已经预先创建了一系列文件夹划分出下列模块:
 
 1. api文件夹就是MVC框架的controller，负责协调各部件完成任务
 2. model文件夹负责存储数据库模型和数据库操作相关的代码
 3. service负责处理比较复杂的业务，把业务代码模型化可以有效提高业务代码的质量（比如用户注册，充值，下单等）
-4. serializer储存通用的json模型，把model得到的数据库模型转换成api需要的json对象
+4. serializer储存通用的json模型，把model得到的数据库模型转换成api需要的json对象, 以及定义API的Code值
 5. cache负责redis, RabbitMQ缓存相关的代码
 6. auth权限控制文件夹
 7. util一些小工具, 目前有randomString、Logger、SendEmail
 8. conf放一些静态存放的配置文件，其中locales内放置翻译相关的配置文件
-9. log放生成的日志文件，第一次使用需要双击运行一下bat文件生成log文件.
+9. ~~log放生成的日志文件，第一次使用需要双击运行一下bat文件生成log文件.~~
 
-## LOG_LEVEL说明 :purple_heart:
+## ~~LOG_LEVEL说明 :purple_heart:~~
 
-第一次使用要先运行`log`文件夹下的`bat`批处理，用来生成记录log所需要的log文件.
+~~第一次使用要先运行`log`文件夹下的`bat`批处理，用来生成记录log所需要的log文件.~~
 
 ```text
 
@@ -80,6 +80,7 @@ api层不允许出现数据库操作, 所有的数据库操作都在service层�
 则全部显示
 
 ```
+
 
 ## Godotenv :yellow_heart:
 
@@ -137,6 +138,7 @@ go run main.go
 ```shell
 go build main.go
 ```
+
 
 Docker运行:
 ```shell
