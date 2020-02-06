@@ -1,0 +1,124 @@
+预计返回: 
+{
+  "code": 0,
+  "data": [
+    {
+      "id": 1,
+      "图片ID": 1,
+      "用户ID": 1,
+      "回复的评论ID": 0,
+      "根评论ID": 0,
+      "自己是否是根评论": 1,
+      "是否是子评论": 0,
+      "评论内容": "Hello?",
+      "评论时间": 0,
+      "点赞数": 0,
+      "根评论下的评论数量 (通过count where 根评论ID 获得)": 2,
+      "子评论内容 (通过where 根评论ID获得)": [
+        {
+          "id": 2,
+          "图片ID": 1,
+          "用户ID": 2,
+          "回复的评论ID": 1,
+          "根评论ID": 1,
+          "自己是否是根评论": 0,
+          "是否是子评论": 1,
+          "评论内容": "Hi!",
+          "评论时间": 0,
+          "点赞数": 0
+        },
+        {
+          "id": 3,
+          "图片ID": 1,
+          "用户ID": 1,
+          "回复的评论ID": 2,
+          "根评论ID": 1,
+          "自己是否是根评论": 0,
+          "是否是子评论": 1,
+          "评论内容": "How are you?",
+          "评论时间": 0,
+          "点赞数": 0
+        }
+      ]
+    }
+  ],
+  "msg": "数据成功返回",
+  "error": "",
+  "time_stamp": 0
+}
+
+实际返回:
+{
+  "code": 0,
+  "data": [
+    {
+      "id": 1,
+      "oid": 1,
+      "rid": 0,
+      "uid": 2,
+      "root": 0,
+      "is_root": true,
+      "is_child": false,
+      "content": "Hello?",
+      "time": 1581004218,
+      "like": 0,
+      "person": {
+        "id": 2,
+        "user_name": "helianthus",
+        "nickname": "HeliantHuS",
+        "status": "active",
+        "avatar": "",
+        "admin": false,
+        "created_at": 1580988274
+      },
+      "count": 2,
+      "members": [
+        {
+          "id": 2,
+          "oid": 1,
+          "rid": 1,
+          "uid": 2,
+          "root": 1,
+          "is_root": false,
+          "is_child": true,
+          "content": "Hi!",
+          "time": 1581004241,
+          "like": 0,
+          "person": {
+            "id": 2,
+            "user_name": "helianthus",
+            "nickname": "HeliantHuS",
+            "status": "active",
+            "avatar": "",
+            "admin": false,
+            "created_at": 1580988274
+          }
+        },
+        {
+          "id": 3,
+          "oid": 1,
+          "rid": 2,
+          "uid": 2,
+          "root": 1,
+          "is_root": false,
+          "is_child": true,
+          "content": "How are you?",
+          "time": 1581004263,
+          "like": 0,
+          "person": {
+            "id": 2,
+            "user_name": "helianthus",
+            "nickname": "HeliantHuS",
+            "status": "active",
+            "avatar": "",
+            "admin": false,
+            "created_at": 1580988274
+          }
+        }
+      ]
+    }
+  ],
+  "msg": "",
+  "error": "",
+  "timestamp": 1581004272
+}
