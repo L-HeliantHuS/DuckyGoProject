@@ -31,7 +31,6 @@ func SecCheck(root uint, reply uint, content string) error {
 	if replace == "" {
 		return errors.New("回复内容不能为空")
 	}
-
 	return nil
 }
 

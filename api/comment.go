@@ -14,7 +14,7 @@ func CreateComment(c *gin.Context) {
 		get, _ := c.Get("user")
 		user := get.(*model.User)
 		res := service.Create(user)
-        c.JSON(200, res.Result())
+		c.JSON(200, res.Result())
 	} else {
 		c.JSON(200, ErrorResponse(err).Result())
 	}
@@ -24,10 +24,29 @@ func CreateComment(c *gin.Context) {
 func GetComment(c *gin.Context) {
 	var service service.GetCommentService
 	if err := c.ShouldBind(&service); err == nil {
-		oid := c.Query("oid")
+		oid := c.Param("oid")
 		pn := c.Query("pn")
+
+		if pn == "" {
+			pn = "1"
+		}
+
 		res := service.Get(oid, pn)
-        c.JSON(200, res.Result())
+		c.JSON(200, res.Result())
+	} else {
+		c.JSON(200, ErrorResponse(err).Result())
+	}
+}
+
+// DeleteComment 删除评论
+func DeleteComment(c *gin.Context) {
+	var service service.DeleteCommentService
+	if err := c.ShouldBind(&service); err == nil {
+		id := c.Param("id")
+		get, _ := c.Get("user")
+		user := get.(*model.User)
+		res := service.Delete(id, user)
+		c.JSON(200, res.Result())
 	} else {
 		c.JSON(200, ErrorResponse(err).Result())
 	}

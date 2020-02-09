@@ -45,7 +45,7 @@ func NewRouter() *gin.Engine {
 				v1.POST("user/login", api.UserLogin)
 
 				// 获取评论
-				v1.GET("reply", api.GetComment)
+				v1.GET("reply/:oid", api.GetComment)
 
 				// 需要登录保护的
 				auth := v1.Group("")
@@ -58,6 +58,9 @@ func NewRouter() *gin.Engine {
 
 					// 发送评论
 					auth.POST("reply", api.CreateComment)
+
+					// 删除评论
+					auth.DELETE("reply/:id", api.DeleteComment)
 
 					// 需要是管理员
 					admin := auth.Group("")

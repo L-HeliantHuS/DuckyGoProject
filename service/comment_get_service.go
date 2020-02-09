@@ -48,7 +48,7 @@ func (service *GetCommentService) Get(oidStr string, pnStr string) *serializer.R
 	var AllRootDB []model.Comment
 
 	// 获取当前OID下的所有根评论
-	if err := model.DB.Model(&model.Comment{}).Where("root = ? and object_id = ?", true, oid).Offset(PageSize * (pn - 1)).Limit(PageSize).Find(&AllRootDB).Error; err != nil {
+	if err := model.DB.Where("root = ? and object_id = ?", true, oid).Offset(PageSize * (pn - 1)).Limit(PageSize).Find(&AllRootDB).Error; err != nil {
 		return &serializer.Response{
 			Code:  serializer.DatabaseReadError,
 			Msg:   "读取数据库失败",
@@ -63,7 +63,7 @@ func (service *GetCommentService) Get(oidStr string, pnStr string) *serializer.R
 	for _, RootDB := range AllRootDB {
 		var ChildDB []model.Comment
 
-		if err := model.DB.Model(&model.Comment{}).Where("root_id = ?", RootDB.ID).Find(&ChildDB).Error; err != nil {
+		if err := model.DB.Where("root_id = ?", RootDB.ID).Find(&ChildDB).Error; err != nil {
 			return &serializer.Response{
 				Code:  serializer.DatabaseReadError,
 				Msg:   "数据库读取失败",
@@ -83,8 +83,14 @@ func (service *GetCommentService) Get(oidStr string, pnStr string) *serializer.R
 		result = append(result, serializer.CommentsResponse(RootDB, ChildDB, count))
 	}
 
+	msg := ""
+	if len(result) > 0 {
+		msg = "数据获取成功"
+	} else {
+		msg = "没有可显示的数据"
+	}
 	return &serializer.Response{
-		Data:      result,
-		Msg:       "数据获取成功",
+		Data: result,
+		Msg:  msg,
 	}
 }

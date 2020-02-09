@@ -27,4 +27,7 @@ const (
 
 	// 数据库读取错误
 	DatabaseReadError = 50002
+
+	// 数据库删除错误 (删除我感觉既是读，也是写)
+	DatabaseDeleteError = 50003
 )

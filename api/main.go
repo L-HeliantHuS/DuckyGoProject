@@ -67,3 +67,5 @@ func ErrorResponse(err error) serializer.Response {
 		Error: fmt.Sprint(err),
 	}
 }
+
+
