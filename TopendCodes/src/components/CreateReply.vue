@@ -58,7 +58,8 @@
         API.replyCreate(form)
             .then(response => {
               if (response.code === 0) {
-                console.log(response.data)
+                this.$message.success("评论成功");
+				window.location.reload();
               } else {
                 this.$message.error("评论失败")
               }
