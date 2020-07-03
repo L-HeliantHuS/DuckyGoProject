@@ -67,7 +67,7 @@
         }
         new_uri += "//" + loc.host;
         new_uri += loc.pathname + "api/v2/ws?token=" + localStorage.getItem("token");
-        
+
         const sockuri = new_uri;
         this.websock = new WebSocket(sockuri);
         this.websock.onmessage = this.websocketonmessage;
@@ -90,10 +90,10 @@
         } else {
           let data = JSON.parse(redata);
           // 服务不正常的情况下提示
-          if ( data.code !== 0 ) {
+          if (data.code !== 0) {
             this.$message.warning(data.msg)
           } else {
-            this.textarea1 += data.timestamp + "\t" + data.data + "\n"
+            this.textarea1 += data.data.user.nickname + "  |  " + Date() + "\n" + data.data.message + "\n\n"
           }
         }
       },
@@ -109,11 +109,9 @@
         let data = {"message": this.input};
         this.websocketsend(JSON.stringify(data));
         this.input = "";
-        
         this.loading = false;
 
-      }
-
+      },
     }
 
   }

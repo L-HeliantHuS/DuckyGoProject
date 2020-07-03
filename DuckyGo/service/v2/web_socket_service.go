@@ -23,7 +23,6 @@ func (WebSocketService) UpgradeWS(user *model.User, conn *websocket.Conn) {
 		conn.Close()
 	}()
 
-
 	// 登录检测
 	if _, ok := GlobalConn[user.ID]; ok {
 		GlobalConn[user.ID].WriteMessage(websocket.TextMessage, util.ResponseJsonMarshal(serializer.Response{
@@ -52,7 +51,6 @@ func (WebSocketService) UpgradeWS(user *model.User, conn *websocket.Conn) {
 			continue
 		}
 
-
 		// serializer2struct
 		err = json.Unmarshal(message, &temp)
 		if err != nil {
@@ -65,7 +63,10 @@ func (WebSocketService) UpgradeWS(user *model.User, conn *websocket.Conn) {
 
 		// 创建回复用的响应结构体
 		responseStruct := serializer.Response{
-			Data: user.Nickname + " msg is:" + temp.Message,
+			Data: serializer.WebSocketResponse{
+				User:    serializer.BuildUser(*user),
+				Message: temp.Message,
+			},
 		}.Result()
 
 		for connItem, _ := range GlobalConn {
