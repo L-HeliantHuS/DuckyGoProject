@@ -3,3 +3,4 @@
 - project3   模拟网盘api项目
 - project4   OSS上传、评论功能实现. (附带前端代码)
 - project5   WebSocket + Vue3 在线聊天室实现
+- project6   graphql, 接口项目
